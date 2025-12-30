@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Anak Hebat</title>
+    <link rel="icon" type="image/png" href="/assets/images/app_logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="dashboard-body">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="/assets/images/app_logo.png" alt="Logo" class="sidebar-logo">
+                <span class="sidebar-brand">Anak Hebat</span>
+            </div>
+
+            <div class="user-profile-mini">
+                <div class="avatar" id="userAvatar">A</div>
+                <div class="user-info">
+                    <h4 id="userName">Loading...</h4>
+                    <span id="userRole">School Admin</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active" data-view="home">
+                        <a href="#"><i class="fas fa-home"></i> Beranda</a>
+                    </li>
+                    <li data-view="classes">
+                        <a href="#"><i class="fas fa-chalkboard"></i> Kelas</a>
+                    </li>
+                    <li data-view="students">
+                        <a href="#"><i class="fas fa-user-graduate"></i> Siswa</a>
+                    </li>
+                    <li data-view="teachers">
+                        <a href="#"><i class="fas fa-chalkboard-teacher"></i> Guru</a>
+                    </li>
+                    <li data-view="parents">
+                        <a href="#"><i class="fas fa-user-friends"></i> Orang Tua</a>
+                    </li>
+                    <li data-view="monitoring">
+                        <a href="#"><i class="fas fa-chart-line"></i> Monitoring</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button id="btnLogout" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> Keluar
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <h2 id="pageTitle">Beranda</h2>
+                <div class="date-display" id="dateDisplay">Senin, 1 Januari 2025</div>
+            </header>
+
+            <!-- Dynamic Content Area -->
+            <div id="contentArea" class="content-area">
+                <!-- Views will be injected here via JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Class Modal -->
+    <div id="addClassModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close modal-close-btn">&times;</button>
+            <div class="modal-header">
+                <h2>Tambah Kelas</h2>
+            </div>
+            <div class="modal-body">
+                <form id="addClassForm">
+                    <div class="form-group">
+                        <label for="schoolNameInput">Nama Sekolah</label>
+                        <input type="text" id="schoolNameInput" disabled class="input-disabled">
+                    </div>
+                    <div class="form-group">
+                        <label for="classNameInput">Nama Kelas</label>
+                        <input type="text" id="classNameInput" placeholder="Contoh: Kelas 1A" required>
+                    </div>
+                    <div class="form-info">
+                        <p>Kapasitas Otomatis: <strong id="classCapacityDisplay">40 Siswa</strong></p>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Simpan Kelas</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/dashboard.ts"></script>
+</body>
+
+</html>

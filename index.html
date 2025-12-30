@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anak Hebat - Platform Pembelajaran untuk Sekolah</title>
+  <meta name="description"
+    content="Platform pembelajaran untuk membantu siswa membangun kebiasaan positif. Daftarkan sekolah Anda sekarang!">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/assets/images/app_logo.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css">
+
+  <!-- Midtrans Snap -->
+  <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="Mid-client-kW08Q23TYi0gFUHj"></script>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-content">
+        <div class="nav-logo">
+          <img src="/assets/images/app_logo.png" alt="Anak Hebat Logo">
+          <span class="nav-brand">Anak Hebat</span>
+        </div>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="#home" class="nav-link">Beranda</a></li>
+          <li><a href="#app" class="nav-link">Aplikasi</a></li>
+          <li><a href="#gallery" class="nav-link">Galeri</a></li>
+          <li><a href="#testimonials" class="nav-link">Testimoni</a></li>
+          <li><a href="#pricing" class="nav-link nav-link-primary">Paket</a></li>
+        </ul>
+        <button class="nav-toggle" id="navToggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="hero-background">
+      <img src="/assets/images/background.png" alt="Background">
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">Platform Pembelajaran #1 untuk Sekolah</div>
+        <h1 class="hero-title">
+          Bangun Kebiasaan <span class="gradient-text">Positif</span><br>
+          untuk Masa Depan <span class="gradient-text">Cemerlang</span>
+        </h1>
+        <p class="hero-description">
+          Anak Hebat membantu siswa mengembangkan kebiasaan baik seperti bangun pagi,
+          rajin belajar, olahraga, dan beribadah dengan cara yang menyenangkan dan interaktif.
+        </p>
+        <div class="hero-buttons">
+          <button class="btn btn-primary btn-large" id="ctaButton">
+            <span>DAFTARKAN SEKOLAHMU SEKARANG</span>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+          <button class="btn btn-secondary btn-large">
+            <span>Pelajari Lebih Lanjut</span>
+          </button>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-number">1000+</div>
+            <div class="stat-label">Siswa Aktif</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">50+</div>
+            <div class="stat-label">Sekolah Terdaftar</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">4.9/5</div>
+            <div class="stat-label">Rating Pengguna</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- App Showcase Section -->
+  <section id="app" class="app-showcase">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">Fitur Aplikasi</div>
+        <h2 class="section-title">Aplikasi yang Mudah & Menyenangkan</h2>
+        <p class="section-description">
+          Interface yang ramah anak dengan warna cerah dan ikon yang menarik
+        </p>
+      </div>
+      <div class="app-grid">
+        <div class="app-feature">
+          <div class="app-phone">
+            <img id="appScreenshot" src="/assets/images/app_screenshot.png" alt="App Screenshot">
+          </div>
+        </div>
+        <div class="app-features-list">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="/assets/icons/rajin_belajar.png" alt="Belajar">
+            </div>
+            <div class="feature-content">
+              <h3>Tracking Kebiasaan</h3>
+              <p>Pantau perkembangan kebiasaan positif siswa setiap hari</p>
+            </div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="/assets/icons/beribadah.png" alt="Beribadah">
+            </div>
+            <div class="feature-content">
+              <h3>Nilai Spiritual</h3>
+              <p>Mendorong siswa untuk rajin beribadah dan berdoa</p>
+            </div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="/assets/icons/olahraga.png" alt="Olahraga">
+            </div>
+            <div class="feature-content">
+              <h3>Kesehatan Fisik</h3>
+              <p>Membiasakan siswa untuk berolahraga dan hidup sehat</p>
+            </div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="/assets/icons/bangun_pagi.png" alt="Bangun Pagi">
+            </div>
+            <div class="feature-content">
+              <h3>Disiplin Waktu</h3>
+              <p>Melatih siswa untuk bangun pagi dan tidur tepat waktu</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section id="gallery" class="gallery">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">Galeri</div>
+        <h2 class="section-title">Kebiasaan Positif yang Kami Dukung</h2>
+        <p class="section-description">
+          Berbagai aktivitas untuk membentuk karakter anak Indonesia
+        </p>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="/assets/icons/rajin_belajar.png" alt="Rajin Belajar">
+          <div class="gallery-overlay">
+            <h3>Rajin Belajar</h3>
+            <p>Membangun kebiasaan belajar rutin</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="/assets/icons/beribadah.png" alt="Beribadah">
+          <div class="gallery-overlay">
+            <h3>Beribadah</h3>
+            <p>Mendekatkan diri kepada Tuhan</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="/assets/icons/olahraga.png" alt="Olahraga">
+          <div class="gallery-overlay">
+            <h3>Olahraga</h3>
+            <p>Menjaga kesehatan tubuh</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="/assets/icons/makan_sehat.png" alt="Makan Sehat">
+          <div class="gallery-overlay">
+            <h3>Makan Sehat</h3>
+            <p>Nutrisi seimbang untuk tumbuh kembang</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="/assets/icons/tidur_cukup.png" alt="Tidur Cukup">
+          <div class="gallery-overlay">
+            <h3>Tidur Cukup</h3>
+            <p>Istirahat yang berkualitas</p>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="/assets/icons/bermasyarakat.png" alt="Bermasyarakat">
+          <div class="gallery-overlay">
+            <h3>Bermasyarakat</h3>
+            <p>Berinteraksi dengan lingkungan</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">Testimoni</div>
+        <h2 class="section-title">Apa Kata Mereka?</h2>
+        <p class="section-description">
+          Pengalaman nyata dari sekolah dan orang tua yang telah menggunakan Anak Hebat
+        </p>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-rating">
+            <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+          </div>
+          <p class="testimonial-text">
+            "Aplikasi yang sangat membantu! Siswa-siswa kami menjadi lebih disiplin dan termotivasi
+            untuk membangun kebiasaan positif. Terima kasih Anak Hebat!"
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar">KS</div>
+            <div class="author-info">
+              <div class="author-name">Kepala Sekolah</div>
+              <div class="author-title">SD Negeri 1 Jakarta</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-rating">
+            <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+          </div>
+          <p class="testimonial-text">
+            "Anak saya jadi lebih mandiri dan rajin. Dia sangat senang menggunakan aplikasi ini
+            karena tampilannya menarik dan mudah dipahami."
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar">ST</div>
+            <div class="author-info">
+              <div class="author-name">Ibu Sarah</div>
+              <div class="author-title">Orang Tua Siswa</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-rating">
+            <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+          </div>
+          <p class="testimonial-text">
+            "Dashboard yang sangat membantu untuk monitoring perkembangan seluruh kelas.
+            Orang tua juga bisa ikut memantau anak mereka. Sangat recommended!"
+          </p>
+          <div class="testimonial-author">
+            <div class="author-avatar">WK</div>
+            <div class="author-info">
+              <div class="author-name">Pak Widi</div>
+              <div class="author-title">Wali Kelas 5B</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section id="pricing" class="pricing">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">Paket Berlangganan</div>
+        <h2 class="section-title">Pilih Paket yang Sesuai</h2>
+        <p class="section-description">
+          Paket fleksibel untuk berbagai kebutuhan sekolah Anda
+        </p>
+      </div>
+      <div class="pricing-grid">
+        <!-- Paket Siswa -->
+        <div class="pricing-card">
+          <div class="pricing-header">
+            <div class="pricing-icon">👤</div>
+            <h3 class="pricing-name">Siswa</h3>
+            <p class="pricing-subtitle">Untuk individual</p>
+          </div>
+          <div class="pricing-price">
+            <span class="price-currency">Rp</span>
+            <span class="price-amount">50.000</span>
+          </div>
+          <ul class="pricing-features">
+            <li>✓ 1 Akun Siswa</li>
+            <li>✓ Akses Semua Fitur</li>
+            <li>✓ Parent Dashboard</li>
+            <li>✓ Notifikasi Harian</li>
+          </ul>
+          <button class="btn btn-pricing" data-package="siswa" data-price="50000" data-accounts="1">
+            Pilih Paket Ini
+          </button>
+        </div>
+
+        <!-- Paket Kelas -->
+        <div class="pricing-card pricing-card-popular">
+          <div class="pricing-badge">Populer</div>
+          <div class="pricing-header">
+            <div class="pricing-icon">👥</div>
+            <h3 class="pricing-name">Kelas</h3>
+            <p class="pricing-subtitle">Untuk 1 kelas</p>
+          </div>
+          <div class="pricing-price">
+            <span class="price-currency">Rp</span>
+            <span class="price-amount">100.000</span>
+          </div>
+          <ul class="pricing-features">
+            <li>✓ 40 Akun Siswa</li>
+            <li>✓ Dashboard Wali Kelas</li>
+            <li>✓ Laporan Perkembangan</li>
+            <li>✓ Parent Dashboard</li>
+            <li>✓ Notifikasi & Reminder</li>
+          </ul>
+          <button class="btn btn-pricing btn-pricing-popular" data-package="kelas" data-price="100000"
+            data-accounts="40">
+            Pilih Paket Ini
+          </button>
+        </div>
+
+        <!-- Paket Angkatan -->
+        <div class="pricing-card">
+          <div class="pricing-header">
+            <div class="pricing-icon">🏫</div>
+            <h3 class="pricing-name">Angkatan</h3>
+            <p class="pricing-subtitle">Untuk 1 angkatan</p>
+          </div>
+          <div class="pricing-price">
+            <span class="price-currency">Rp</span>
+            <span class="price-amount">500.000</span>
+          </div>
+          <ul class="pricing-features">
+            <li>✓ 15 Kelas (600 Akun)</li>
+            <li>✓ Dashboard Admin Sekolah</li>
+            <li>✓ Laporan Komprehensif</li>
+            <li>✓ Parent Dashboard</li>
+            <li>✓ Priority Support</li>
+          </ul>
+          <button class="btn btn-pricing" data-package="angkatan" data-price="500000" data-accounts="600">
+            Pilih Paket Ini
+          </button>
+        </div>
+
+        <!-- Paket Sekolah -->
+        <div class="pricing-card pricing-card-enterprise">
+          <div class="pricing-header">
+            <div class="pricing-icon">🏛️</div>
+            <h3 class="pricing-name">Sekolah</h3>
+            <p class="pricing-subtitle">Untuk seluruh sekolah</p>
+          </div>
+          <div class="pricing-price">
+            <span class="price-currency">Rp</span>
+            <span class="price-amount">1.000.000</span>
+          </div>
+          <ul class="pricing-features">
+            <li>✓ 45 Kelas (1800 Akun)</li>
+            <li>✓ Full Admin Access</li>
+            <li>✓ Custom Branding</li>
+            <li>✓ Dedicated Support</li>
+            <li>✓ Training & Onboarding</li>
+          </ul>
+          <button class="btn btn-pricing" data-package="sekolah" data-price="1000000" data-accounts="1800">
+            Pilih Paket Ini
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <img src="/assets/images/app_logo.png" alt="Anak Hebat Logo">
+          <h3>Anak Hebat</h3>
+          <p>Membangun generasi Indonesia yang lebih baik melalui kebiasaan positif.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Navigasi</h4>
+            <ul>
+              <li><a href="#home">Beranda</a></li>
+              <li><a href="#app">Aplikasi</a></li>
+              <li><a href="#gallery">Galeri</a></li>
+              <li><a href="#testimonials">Testimoni</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h4>Kontak</h4>
+            <ul>
+              <li>Email: info@anakhebat.id</li>
+              <li>WhatsApp: +62 123 4567 890</li>
+              <li>Alamat: Jakarta, Indonesia</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Anak Hebat. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Registration Modal -->
+  <div id="registrationModal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" id="regModalClose">&times;</button>
+      <div class="modal-header">
+        <h2>Pendaftaran Sekolah</h2>
+        <p class="modal-subtitle">Lengkapi data berikut untuk mendaftar</p>
+      </div>
+      <div class="modal-body">
+        <form id="registrationForm" class="registration-form">
+          <input type="hidden" id="regPackageType" name="packageType">
+          <input type="hidden" id="regPackagePrice" name="packagePrice">
+
+          <div class="form-group">
+            <label for="regName">Nama Pendaftar</label>
+            <input type="text" id="regName" name="name" required placeholder="Masukkan nama lengkap">
+          </div>
+
+          <div class="form-group">
+            <label for="regEmail">Email</label>
+            <input type="email" id="regEmail" name="email" required placeholder="contoh@sekolah.sch.id">
+          </div>
+
+          <div class="form-group">
+            <label for="regSchool">Nama Sekolah</label>
+            <input type="text" id="regSchool" name="school" required placeholder="Contoh: SD Negeri 1 Jakarta">
+          </div>
+
+          <div class="package-summary-mini">
+            <p>Paket Dipilih: <strong id="regPackageName">-</strong></p>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block" id="btnSubmitReg">
+            <span>Lanjut ke Pembayaran</span>
+          </button>
+        </form>
+        <div class="modal-footer">
+          <p>Sudah punya kode akses? <a href="/login.html">Masuk di sini</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Payment Modal (Manual Transfer) -->
+  <div id="paymentModal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <div class="modal-header">
+        <h2>Metode Pembayaran</h2>
+      </div>
+      <div class="modal-body">
+        <div class="payment-instructions">
+          <p class="instruction-text">Silakan transfer sesuai paket yang dipilih ke salah satu rekening berikut:</p>
+
+          <div class="bank-list">
+            <div class="bank-item">
+              <div class="bank-logo">BNI</div>
+              <div class="bank-details">
+                <span class="bank-number">1824811697</span>
+                <span class="bank-name">an. WENDRA BAGAS SAPUTRA</span>
+              </div>
+              <button class="btn-copy" data-copy="1824811697">Salin</button>
+            </div>
+
+            <div class="bank-item">
+              <div class="bank-logo">JAGO</div>
+              <div class="bank-details">
+                <span class="bank-number">105295137180</span>
+                <span class="bank-name">an. WENDRA BAGAS SAPUTRA</span>
+              </div>
+              <button class="btn-copy" data-copy="105295137180">Salin</button>
+            </div>
+
+            <div class="bank-item">
+              <div class="bank-logo">JATENG</div>
+              <div class="bank-details">
+                <span class="bank-number">3012168071</span>
+                <span class="bank-name">an. WENDRA BAGAS SAPUTRA</span>
+              </div>
+              <button class="btn-copy" data-copy="3012168071">Salin</button>
+            </div>
+
+            <div class="bank-item">
+              <div class="bank-logo">E-WALLET</div>
+              <div class="bank-details">
+                <span class="bank-number">089668379034</span>
+                <span class="bank-name">Gopay, Dana, Shopeepay, OVO</span>
+              </div>
+              <button class="btn-copy" data-copy="089668379034">Salin</button>
+            </div>
+          </div>
+
+          <div class="confirmation-section">
+            <p>Sudah melakukan transfer?</p>
+            <a href="#" id="btnConfirmWA" target="_blank" class="btn btn-whatsapp">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.654-.698c.99.66 2.112 1.012 3.238 1.012l.001-.001 4.75-.436.438-4.753c.001-3.181-2.585-5.766-5.772-5.766zm-5.772.484c1.884-1.885 4.391-2.923 7.056-2.924 5.503 0 9.981 4.478 9.984 9.981.002 2.666-1.036 5.172-2.922 7.058-1.886 1.885-4.392 2.922-7.058 2.922-2.313 0-4.524-.783-6.3-2.22l-4.5 1.181 1.201-4.385c-1.579-1.928-2.42-4.301-2.42-6.756.002-2.666 1.037-5.173 2.922-7.058zm6.549 11.232c.245-.122 1.442-.711 1.685-.793.243-.081.421-.122.599.163.178.284.688.854.842 1.057.154.203.251.229.495.105.244-.122 1.031-.38 1.964-1.211.727-.648 1.218-1.448 1.36-1.692.143-.244.015-.376.138-.497.11-.11.244-.285.366-.428.122-.142.163-.244.244-.407.081-.162.041-.305-.02-.427-.061-.122-.533-1.284-.73-1.758-.192-.464-.387-.4-.533-.408-.138-.008-.297-.008-.456-.008-.158 0-.416.061-.634.298-.218.238-.842.822-.842 2.004 0 1.181.861 2.322.981 2.485.121.162 1.693 2.585 4.099 3.626.572.247 1.018.395 1.365.506.572.183 1.093.157 1.503.096.46-.069 1.442-.59 1.645-1.159.203-.569.203-1.056.142-1.159-.061-.102-.224-.163-.468-.285z" />
+              </svg>
+              Konfirmasi via WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div id="successModal" class="modal">
+    <div class="modal-content">
+      <div class="success-animation">
+        <div class="checkmark">✓</div>
+      </div>
+      <h2>Pembayaran Berhasil!</h2>
+      <p class="voucher-label">Kode Voucher Anda:</p>
+      <div class="voucher-code" id="voucherCode">AHA-XXXX-XXXX</div>
+      <p class="voucher-instruction">
+        Simpan kode voucher ini untuk redeem di aplikasi Anak Hebat
+      </p>
+      <button class="btn btn-primary" id="closeSuccessModal">Tutup</button>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
