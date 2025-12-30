@@ -12,12 +12,15 @@ declare global {
         openDetailModal: (studentId: string, studentName: string, dateStr: string) => void;
         openDetailModalByData: (studentName: string, dateStr: string, score: number) => void;
         openAddUserModal: (role: string) => void;
+        openEditUserModal: (userId: string, role: string) => void;
     }
 }
 
 // User State
 let currentUserData = null;
 let currentClasses = [];
+let editingId = null; // Track marking for edit mode
+
 
 document.addEventListener('DOMContentLoaded', () => {
     // Auth Check
@@ -1072,6 +1075,8 @@ style.textContent = `
         flex-direction: column;
         padding: 1.5rem;
         transition: transform 0.3s;
+        height: 100vh;
+        overflow-y: auto;
     }
 
     .sidebar-header {
