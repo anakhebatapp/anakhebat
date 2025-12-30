@@ -86,17 +86,119 @@
             <div class="modal-body">
                 <form id="addClassForm">
                     <div class="form-group">
-                        <label for="schoolNameInput">Nama Sekolah</label>
+                        <label>Nama Sekolah</label>
                         <input type="text" id="schoolNameInput" disabled class="input-disabled">
                     </div>
                     <div class="form-group">
-                        <label for="classNameInput">Nama Kelas</label>
+                        <label>Nama Kelas</label>
                         <input type="text" id="classNameInput" placeholder="Contoh: Kelas 1A" required>
                     </div>
                     <div class="form-info">
                         <p>Kapasitas Otomatis: <strong id="classCapacityDisplay">40 Siswa</strong></p>
                     </div>
                     <button type="submit" class="btn btn-primary btn-block">Simpan Kelas</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Student Modal -->
+    <div id="addStudentModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close modal-close-btn">&times;</button>
+            <div class="modal-header">
+                <h2>Tambah Siswa</h2>
+            </div>
+            <div class="modal-body">
+                <form id="addStudentForm">
+                    <div class="form-group">
+                        <label>Nama Lengkap</label>
+                        <input type="text" id="studentName" required placeholder="Nama Siswa">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Siswa (Opsional/Login)</label>
+                        <input type="email" id="studentEmail" placeholder="email@siswa.com">
+                    </div>
+                    <div class="form-group">
+                        <label>NIS / NISN</label>
+                        <input type="text" id="studentNis" required placeholder="Nomor Induk Siswa">
+                    </div>
+                    <div class="form-group">
+                        <label>Kelas</label>
+                        <select id="studentClassSelect" required class="form-select">
+                            <option value="">Pilih Kelas</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Orang Tua (Untuk Tracking)</label>
+                        <input type="email" id="studentParentEmail" placeholder="email.ortu@example.com">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Simpan Siswa</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Teacher Modal -->
+    <div id="addTeacherModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close modal-close-btn">&times;</button>
+            <div class="modal-header">
+                <h2>Tambah Guru</h2>
+            </div>
+            <div class="modal-body">
+                <form id="addTeacherForm">
+                    <div class="form-group">
+                        <label>Nama Lengkap</label>
+                        <input type="text" id="teacherName" required placeholder="Nama Guru">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="teacherEmail" required placeholder="email@guru.com">
+                    </div>
+                    <div class="form-group">
+                        <label>NIP / ID Guru</label>
+                        <input type="text" id="teacherNip" placeholder="NIP (Opsional)">
+                    </div>
+                    <div class="form-group">
+                        <label>Wali Kelas (Opsional)</label>
+                        <select id="teacherClassSelect" class="form-select">
+                            <option value="">Bukan Wali Kelas</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Simpan Guru</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Parent Modal -->
+    <div id="addParentModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close modal-close-btn">&times;</button>
+            <div class="modal-header">
+                <h2>Tambah Orang Tua</h2>
+            </div>
+            <div class="modal-body">
+                <form id="addParentForm">
+                    <div class="form-group">
+                        <label>Nama Orang Tua</label>
+                        <input type="text" id="parentName" required placeholder="Nama Ayah/Ibu">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="parentEmail" required placeholder="email@ortu.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Nomor HP / WhatsApp</label>
+                        <input type="tel" id="parentPhone" placeholder="0812...">
+                    </div>
+                    <div class="form-group">
+                        <label>Link ke Siswa (NIS)</label>
+                        <input type="text" id="parentChildNis" placeholder="Masukkan NIS Anak">
+                        <small style="color:gray; font-size:0.8rem;">Pisahkan dengan koma jika lebih dari satu</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Simpan Orang Tua</button>
                 </form>
             </div>
         </div>
