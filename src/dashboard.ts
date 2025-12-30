@@ -1,6 +1,6 @@
 import './style.css';
-import { auth, db } from './firebase';
-import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js';
+import { auth, db, getSecondaryAuth } from './firebase';
+import { onAuthStateChanged, signOut, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js';
 import { collection, getDocs, doc, setDoc, updateDoc, deleteDoc, query, where, serverTimestamp, getDoc } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js';
 
 // Extend Window interface for global functions
@@ -13,6 +13,7 @@ declare global {
         openDetailModalByData: (studentName: string, dateStr: string, score: number) => void;
         openAddUserModal: (role: string) => void;
         openEditUserModal: (userId: string, role: string) => void;
+        handleDeleteUser: (userId: string, role: string) => void;
     }
 }
 

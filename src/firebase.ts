@@ -24,6 +24,22 @@ const auth = getAuth(app);
 // Export for use in other modules
 export { app, analytics, db, auth, collection, addDoc, serverTimestamp };
 
+// Secondary App for creating users without logging out admin
+import { getApp, getApps } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js';
+
+export function getSecondaryAuth() {
+  let secondaryApp;
+  // Check if secondary app already exists to avoid duplicate init
+  const apps = getApps();
+  secondaryApp = apps.find(a => a.name === 'SecondaryApp');
+
+  if (!secondaryApp) {
+    secondaryApp = initializeApp(firebaseConfig, 'SecondaryApp');
+  }
+
+  return getAuth(secondaryApp);
+}
+
 // Helper function to generate voucher code
 export function generateVoucherCode() {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
