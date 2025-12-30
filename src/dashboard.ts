@@ -1,7 +1,7 @@
 import './style.css';
 import { auth, db } from './firebase';
 import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js';
-import { collection, getDocs, doc, setDoc, updateDoc, deleteDoc, query, where, serverTimestamp, getDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, updateDoc, deleteDoc, query, where, serverTimestamp, getDoc } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js';
 
 // Extend Window interface for global functions
 declare global {
