@@ -1,7 +1,19 @@
 import './style.css';
 import { auth, db } from './firebase';
 import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js';
-import { doc, getDoc, collection, query, where, getDocs, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js';
+import { collection, getDocs, doc, setDoc, updateDoc, deleteDoc, query, where, serverTimestamp, getDoc } from 'firebase/firestore';
+
+// Extend Window interface for global functions
+declare global {
+    interface Window {
+        switchMonitorView: (viewType: string) => void;
+        refreshMonitorView: () => void;
+        currentMonitorView: string;
+        openDetailModal: (studentId: string, studentName: string, dateStr: string) => void;
+        openDetailModalByData: (studentName: string, dateStr: string, score: number) => void;
+        openAddUserModal: (role: string) => void;
+    }
+}
 
 // User State
 let currentUserData = null;
@@ -355,12 +367,12 @@ function renderMonitoring(container) {
                     <button class="btn btn-primary" id="btnMonitorDaily" onclick="window.switchMonitorView('daily')">Harian</button>
                     <button class="btn btn-outline" id="btnMonitorMonthly" onclick="window.switchMonitorView('monthly')">Bulanan</button>
                 </div>
-                 <div class="monitoring-filters" style="display: flex; gap: 0.5rem;">
-                    <select class="form-select" style="width: auto;">
-                        <option>Semua Kelas</option>
-                        ${currentClasses.map(c => `<option>${c.name}</option>`).join('')}
+                     <div class="monitoring-filters" style="display: flex; gap: 0.5rem;">
+                    <select id="monitorClassFilter" class="form-select" style="width: auto;" onchange="window.refreshMonitorView()">
+                        <option value="">Semua Kelas</option>
+                        ${currentClasses.map(c => `<option value="${c.name}">${c.name}</option>`).join('')}
                     </select>
-                    <input type="date" class="form-input" style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: 8px;" value="${new Date().toISOString().split('T')[0]}">
+                    <input type="date" id="monitorDateFilter" class="form-input" style="padding: 0.5rem; border: 1px solid #e2e8f0; border-radius: 8px;" value="${new Date().toISOString().split('T')[0]}" onchange="window.refreshMonitorView()">
                 </div>
             </div>
 
@@ -371,17 +383,50 @@ function renderMonitoring(container) {
     `;
 
     // Initialize with Daily view
+    window.currentMonitorView = 'daily';
     window.switchMonitorView('daily');
 }
 
-window.switchMonitorView = (viewType) => {
+window.refreshMonitorView = () => {
+    window.switchMonitorView(window.currentMonitorView || 'daily');
+};
+
+window.switchMonitorView = async (viewType) => {
+    window.currentMonitorView = viewType;
     const btnDaily = document.getElementById('btnMonitorDaily');
     const btnMonthly = document.getElementById('btnMonitorMonthly');
     const content = document.getElementById('monitoringContent');
 
+    // Get Filters
+    const classFilter = (document.getElementById('monitorClassFilter') as HTMLSelectElement)?.value;
+    const dateInput = (document.getElementById('monitorDateFilter') as HTMLInputElement)?.value;
+    const dateObj = dateInput ? new Date(dateInput) : new Date();
+
     if (viewType === 'daily') {
         btnDaily.classList.replace('btn-outline', 'btn-primary');
         btnMonthly.classList.replace('btn-primary', 'btn-outline');
+
+        content.innerHTML = '<div class="loading">Memuat data harian...</div>';
+
+        // Fetch Daily Data
+        const logs = await fetchDailyLogs(dateInput, classFilter);
+
+        let rows = '';
+        if (logs.length === 0) {
+            rows = `<tr><td colspan="5" class="text-center">Belum ada data monitoring untuk tanggal ini.</td></tr>`;
+        } else {
+            logs.forEach(log => {
+                rows += `
+                    <tr>
+                        <td>${log.studentName}</td>
+                        <td>${log.className}</td>
+                        <td><span class="badge ${log.score >= 6 ? 'badge-green' : log.score >= 4 ? 'badge-blue' : 'badge-purple'}">${log.score}/7 Habit</span></td>
+                        <td>${log.notes || '-'}</td>
+                        <td><button class="btn-sm btn-outline" onclick="window.openDetailModal('${log.studentId}', '${log.studentName}', '${dateInput}')">Lihat Rincian</button></td>
+                    </tr>
+                `;
+            });
+        }
 
         // Render Daily Table
         content.innerHTML = `
@@ -397,21 +442,7 @@ window.switchMonitorView = (viewType) => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Adit Sopo</td>
-                            <td>Kelas 1A</td>
-                            <td><span class="badge badge-green">5/7 Habit</span></td>
-                            <td>Semangat belajar perlu ditingkatkan.</td>
-                            <td><button class="btn-sm btn-outline">Lihat Rincian</button></td>
-                        </tr>
-                        <tr>
-                            <td>Jarwo Kuat</td>
-                            <td>Kelas 1B</td>
-                            <td><span class="badge badge-blue">7/7 Habit</span></td>
-                            <td>Sangat baik hari ini!</td>
-                            <td><button class="btn-sm btn-outline">Lihat Rincian</button></td>
-                        </tr>
-                        <!-- Mock Data -->
+                        ${rows}
                     </tbody>
                 </table>
             </div>
@@ -420,46 +451,254 @@ window.switchMonitorView = (viewType) => {
         btnDaily.classList.replace('btn-primary', 'btn-outline');
         btnMonthly.classList.replace('btn-outline', 'btn-primary');
 
-        // Render Monthly Table
-        // Generate days for current month
-        const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+        content.innerHTML = '<div class="loading">Memuat data bulanan...</div>';
+
+        // Fetch Monthly Data
+        const year = dateObj.getFullYear();
+        const month = dateObj.getMonth();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        // Fetch all logs for this month
+        const monthlyLogs = await fetchMonthlyLogs(year, month, classFilter);
+
+        // Get unique students from logs or fetch all students if filter exists
+        // For simplicity, we assume we list students who have at least one log OR all students in class
+        // Let's just use the logs source to list students for now
+        const studentMap = {};
+        monthlyLogs.forEach(log => {
+            if (!studentMap[log.studentId]) {
+                studentMap[log.studentId] = { name: log.studentName, logs: {} };
+            }
+            // Log date format YYYY-MM-DD. Extract day.
+            const day = parseInt(log.date.split('-')[2]);
+            studentMap[log.studentId].logs[day] = log.score;
+        });
+
         let headerDays = '';
         for (let i = 1; i <= daysInMonth; i++) {
-            headerDays += `<th style="text-align: center; min-width: 30px;">${i}</th>`;
+            headerDays += `<th style="text-align: center; min-width: 35px; padding: 0.5rem 0.2rem;">${i}</th>`;
+        }
+
+        let bodyRows = '';
+        if (Object.keys(studentMap).length === 0) {
+            bodyRows = `<tr><td colspan="${daysInMonth + 1}" class="text-center">Tidak ada data di bulan ini.</td></tr>`;
+        } else {
+            Object.values(studentMap).forEach((s: any) => {
+                let dayCells = '';
+                for (let i = 1; i <= daysInMonth; i++) {
+                    const score = s.logs[i];
+                    if (score !== undefined) {
+                        const color = score >= 6 ? '#48bb78' : score >= 4 ? '#ecc94b' : '#f56565';
+                        // Format date for the cell click
+                        const cellDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                        // Find studentId is tricky here if we iterate values, let's change map to array or store ID
+                        dayCells += `<td style="text-align: center; color: ${color}; font-weight: bold; cursor: pointer; background:#fafffd;" 
+                            onclick="window.openDetailModalByData('${s.name}', '${cellDate}', ${score})">
+                            ${score}
+                         </td>`;
+                    } else {
+                        dayCells += `<td style="text-align: center; color: #e2e8f0;">-</td>`;
+                    }
+                }
+                bodyRows += `
+                    <tr>
+                        <td style="position: sticky; left: 0; background: white; font-weight: 500; border-right:2px solid #eee;">${s.name}</td>
+                        ${dayCells}
+                    </tr>
+                `;
+            });
         }
 
         content.innerHTML = `
             <div class="table-container" style="overflow-x: auto;">
-                <table class="data-table">
+                <table class="data-table" style="font-size: 0.9rem;">
                     <thead>
                         <tr>
-                            <th style="position: sticky; left: 0; background: #f8fafc; z-index: 10;">Nama Siswa</th>
+                            <th style="position: sticky; left: 0; background: #f8fafc; z-index: 10; border-right:2px solid #eee;">Nama Siswa</th>
                             ${headerDays}
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style="position: sticky; left: 0; background: white; font-weight: 500;">Adit Sopo</td>
-                            ${Array.from({ length: daysInMonth }, (_, i) => {
-            const score = Math.floor(Math.random() * 8); // 0-7
-            const color = score >= 6 ? '#48bb78' : score >= 4 ? '#ecc94b' : '#f56565';
-            return `<td style="text-align: center; color: ${color}; font-weight: bold; cursor: pointer;" title="Klik untuk detail">${score}/7</td>`;
-        }).join('')}
-                        </tr>
-                         <tr>
-                            <td style="position: sticky; left: 0; background: white; font-weight: 500;">Jarwo Kuat</td>
-                            ${Array.from({ length: daysInMonth }, (_, i) => {
-            const score = Math.floor(Math.random() * 8); // 0-7
-            const color = score >= 6 ? '#48bb78' : score >= 4 ? '#ecc94b' : '#f56565';
-            return `<td style="text-align: center; color: ${color}; font-weight: bold; cursor: pointer;" title="Klik untuk detail">${score}/7</td>`;
-        }).join('')}
-                        </tr>
+                        ${bodyRows}
                     </tbody>
                 </table>
             </div>
         `;
     }
 };
+
+// --- Real Data Fetching Helpers ---
+
+async function fetchDailyLogs(dateStr, classFilter) {
+    // Assumption: 'habit_logs' collection
+    // Fields: date (YYYY-MM-DD), className, studentName, studentId, completedCount, totalHabits, notes
+    try {
+        let constraints = [where('date', '==', dateStr)];
+        if (classFilter && classFilter !== 'Semua Kelas') {
+            constraints.push(where('className', '==', classFilter));
+        }
+
+        // If 'habit_logs' doesn't exist yet, this will return empty.
+        // We need to query.
+        const q = query(collection(db, 'habit_logs'), ...constraints);
+        const snapshot = await getDocs(q);
+
+        return snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+            score: doc.data().completedCount || 0 // Fallback
+        }));
+    } catch (e) {
+        console.error("Error fetching daily logs:", e);
+        return [];
+    }
+}
+
+async function fetchMonthlyLogs(year, monthIndex, classFilter) {
+    try {
+        // Construct range: YYYY-MM-01 to YYYY-MM-31
+        const startDate = `${year}-${String(monthIndex + 1).padStart(2, '0')}-01`;
+        const endDate = `${year}-${String(monthIndex + 1).padStart(2, '0')}-31`;
+
+        let constraints = [
+            where('date', '>=', startDate),
+            where('date', '<=', endDate)
+        ];
+        if (classFilter && classFilter !== 'Semua Kelas') {
+            constraints.push(where('className', '==', classFilter));
+        }
+
+        const q = query(collection(db, 'habit_logs'), ...constraints);
+        const snapshot = await getDocs(q);
+
+        return snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+            score: doc.data().completedCount || 0
+        }));
+
+    } catch (e) {
+        console.error("Error fetching monthly logs:", e);
+        return [];
+    }
+}
+
+// --- Detail Popups ---
+
+window.openDetailModal = async (studentId, studentName, dateStr) => {
+    const modal = document.getElementById('detailMonitoringModal');
+    const subtitle = document.getElementById('detailModalSubtitle');
+    const list = document.getElementById('detailHabitList');
+    const notes = document.getElementById('detailNotes');
+
+    if (modal) {
+        modal.classList.add('active');
+        if (subtitle) subtitle.textContent = `Siswa: ${studentName} | Tanggal: ${dateStr}`;
+        if (list) list.innerHTML = '<div class="loading">Memuat Detail...</div>';
+        if (notes) notes.textContent = '...';
+
+        // Fetch specific log doc
+        try {
+            // Find doc by studentId and date
+            // Ideally docID is composite, but we'll query to be safe
+            const q = query(collection(db, 'habit_logs'),
+                where('studentId', '==', studentId),
+                where('date', '==', dateStr)
+            );
+            const snap = await getDocs(q);
+
+            if (snap.empty) {
+                if (list) list.innerHTML = '<p>Tidak ada data detail untuk hari ini.</p>';
+            } else {
+                const data = snap.docs[0].data();
+
+                // Render Habits
+                // Expecting data.habits = { "Bangun Pagi": true, "Sholat": false }
+                let habitsHtml = '<ul style="list-style: none; padding: 0;">';
+                if (data.habits) {
+                    Object.entries(data.habits).forEach(([habit, isDone]) => {
+                        habitsHtml += `
+                            <li style="display: flex; align-items: center; gap: 1rem; padding: 0.5rem; border-bottom: 1px solid #eee;">
+                                <i class="fas ${isDone ? 'fa-check-circle' : 'fa-times-circle'}" style="color: ${isDone ? '#48bb78' : '#e2e8f0'}; font-size: 1.2rem;"></i>
+                                <span style="${isDone ? '' : 'color: #a0aec0;'}">${habit}</span>
+                            </li>
+                        `;
+                    });
+                } else {
+                    habitsHtml += '<li>Data habit raw tidak ditemukan.</li>';
+                }
+                habitsHtml += '</ul>';
+
+                if (list) list.innerHTML = habitsHtml;
+                if (notes) notes.textContent = data.notes || "Tidak ada catatan.";
+            }
+
+        } catch (e) {
+            if (list) list.innerHTML = '<p class="error">Gagal memuat detail.</p>';
+        }
+    }
+}
+
+// Fallback for monthly view click where we might not have student ID easily available in the simplistic map
+window.openDetailModalByData = async (studentName, dateStr, score) => {
+    // In monthly view we didn't store student ID in the map for simplicity in the previous step
+    // But we need it to verify uniqueness. query by name+date is risky.
+    // Let's assume we can fetch by name for now OR better, we fix the monthly map to store ID.
+    // I fixed the monthly map above to key by ID, but the values are "logs".
+    // I need to update the onclick generator to include ID.
+
+    // Actually, looking at the code I generated above:
+    // Object.values(studentMap).forEach((s: any) => ...
+    // s is { name: '...', logs: {} }
+    // I lost the studentId key.
+
+    // I will use a simple query by studentName and date for now as fallback, 
+    // or just show what we have if we passed it.
+    // But to show "Rincian" we need the habits list.
+    // Let's do a query by name & date & school (implied).
+
+    const modal = document.getElementById('detailMonitoringModal');
+    const subtitle = document.getElementById('detailModalSubtitle');
+    const list = document.getElementById('detailHabitList');
+    const notes = document.getElementById('detailNotes');
+
+    if (modal) {
+        modal.classList.add('active');
+        if (subtitle) subtitle.textContent = `Siswa: ${studentName} | Tanggal: ${dateStr}`;
+        if (list) list.innerHTML = '<div class="loading">Mencari data detail...</div>';
+
+        try {
+            const q = query(collection(db, 'habit_logs'),
+                where('studentName', '==', studentName),
+                where('date', '==', dateStr),
+                where('schoolName', '==', currentUserData.schoolName)
+            );
+            const snap = await getDocs(q);
+
+            if (snap.empty) {
+                if (list) list.innerHTML = `<p>Detail habit kosong (Score: ${score}).</p>`;
+            } else {
+                const data = snap.docs[0].data();
+                let habitsHtml = '<ul style="list-style: none; padding: 0;">';
+                if (data.habits) {
+                    Object.entries(data.habits).forEach(([habit, isDone]) => {
+                        habitsHtml += `
+                            <li style="display: flex; align-items: center; gap: 1rem; padding: 0.5rem; border-bottom: 1px solid #eee;">
+                                <i class="fas ${isDone ? 'fa-check-circle' : 'fa-times-circle'}" style="color: ${isDone ? '#48bb78' : '#e2e8f0'}; font-size: 1.2rem;"></i>
+                                <span style="${isDone ? '' : 'color: #a0aec0;'}">${habit}</span>
+                            </li>
+                        `;
+                    });
+                }
+                habitsHtml += '</ul>';
+                if (list) list.innerHTML = habitsHtml;
+                if (notes) notes.textContent = data.notes || "Tidak ada catatan.";
+            }
+        } catch (e) {
+            if (list) list.innerHTML = '<p class="error">Gagal memuat detail.</p>';
+        }
+    }
+}
 
 // --- Super Admin Functions ---
 

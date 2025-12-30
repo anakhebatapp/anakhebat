@@ -204,6 +204,29 @@
         </div>
     </div>
 
+    <!-- Detail Monitoring Modal (Harian) -->
+    <div id="detailMonitoringModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <button class="modal-close modal-close-btn">&times;</button>
+            <div class="modal-header">
+                <h2>Rincian Harian</h2>
+                <p id="detailModalSubtitle" style="color:GrayText; margin-top:0.5rem;">Siswa: - | Tanggal: -</p>
+            </div>
+            <div class="modal-body">
+                <!-- Rincian Habit -->
+                <div class="habit-list" id="detailHabitList">
+                    <div class="loading">Memuat rincian...</div>
+                </div>
+
+                <!-- Notes Section -->
+                <div class="notes-section" style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #eee;">
+                    <h4>Catatan Guru/Ortu</h4>
+                    <p id="detailNotes" style="font-style: italic; color: #555;">Tidak ada catatan.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script type="module" src="/src/dashboard.ts"></script>
 </body>
 
